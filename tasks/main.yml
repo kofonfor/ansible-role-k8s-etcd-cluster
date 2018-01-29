@@ -1,0 +1,5 @@
+- name: put a deployment file
+  template: src=etcd_deployment.yaml dest=/root/etcd_deployment.yaml
+
+- name: deploy the Etcd cluster
+  shell: kubectl create --namespace={{ etcd_cluster_namespace }} -f /root/etcd_deployment.yaml
