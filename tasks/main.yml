@@ -1,5 +1,11 @@
 - name: put a deployment file
   template: src=etcd_deployment.yaml dest=/root/etcd_deployment.yaml
 
+- name: check if Etcd cluster exists
+  shell: kubectl get service --namespace=tntclub | grep tntclub-stolon-etcd
+  register: result
+  ignore_errors: true
+
 - name: deploy the Etcd cluster
   shell: kubectl create --namespace={{ etcd_cluster_namespace }} -f /root/etcd_deployment.yaml
+  when: result|failed
